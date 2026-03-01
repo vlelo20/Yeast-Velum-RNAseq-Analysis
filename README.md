@@ -31,7 +31,10 @@ Reference Files:
 - cdna.all.fa.gz: Transcriptome FASTA. Required for Salmon quantification; contains spliced transcript sequences where reads are actually mapped.
 - dna.toplevel.fa.gz: Whole genome FASTA. Optional but recommended; used to build a decoy-aware Salmon index to reduce false mappings.
 - .gtf.gz: Gene annotation (GTF). Required for tximport/DESeq2 to map transcript IDs → gene IDs for differential expression and GO/KEGG enrichment.
+
+Created sample sheet for looping:
 ```
+
 ```
 ## **2.3 Quality Control**
 ```
