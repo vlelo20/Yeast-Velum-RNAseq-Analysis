@@ -33,11 +33,12 @@ cd ~/binf6110/assignment2
 ## **2.2 Data & Metadata**
 
 ### **2.2.1 Dataset**
-```
-```
+
+Raw RNA-seq reads were obtained from the NCBI Sequence Read Archive under BioProject accession PRJNA592304 (Mardanov et al., 2020). The dataset comprises nine paired-end Illumina samples derived from Saccharomyces cerevisiae flor yeast at three stages of velum development: Early biofilm (IL20, IL21, IL22; SRR10551665–SRR10551663), Thin biofilm (IL23, IL24, IL25; SRR10551662–SRR10551660), and Mature biofilm (IL29, IL30, IL31; SRR10551659–SRR10551657), with three biological replicates per stage. Reads were downloaded using fasterq-dump from SRA-tools and quantified against the S. cerevisiae Ensembl R64-1-1 reference transcriptome (Saccharomyces_cerevisiae.R64-1-1.110) using Salmon in selective-alignment, decoy-aware mode.
+
 ### **2.2.2 Metadata File**
-```
-```
+A sample metadata file (samplesheet.csv) was constructed manually to map each sample identifier to its corresponding SRA run accession and velum stage, containing three columns: sample (e.g., IL20), srr (e.g., SRR10551665), and stage (Early, Thin, or Mature). The stage variable was encoded as an ordered factor with levels Early < Thin < Mature to reflect the biological progression of velum development, and was used as the grouping variable in all downstream DESeq2 models. No additional physicochemical metadata (e.g., ethanol content, aldehyde concentrations) reported in the original publication were incorporated into the statistical models, as the analysis was restricted to transcriptomic stage comparisons using the RNA-seq data alone.
+
 ### **2.2.3 Data Download**
 **Raw Sequencing Data Acquisition**
 Raw sequencing reads for nine samples—representing early (IL20–IL22), thin (IL23–IL25, IL29), and mature (IL30–IL31) biofilm developmental stages—were retrieved from the NCBI Sequence Read Archive (SRA). Data acquisition was performed using the SRA Toolkit utility fasterq-dump (v3.2.1), utilizing a manifest-driven approach to ensure experimental reproducibility and metadata synchronization. To facilitate downstream analysis, the original SRR accessions were programmatically mapped and renamed to their corresponding biological sample identifiers. Initial sequence quality was assessed using FastQC (v0.12.1) to ensure data integrity; for a complete record of the implementation parameters, please refer to the download.sh script in the scripts file.
