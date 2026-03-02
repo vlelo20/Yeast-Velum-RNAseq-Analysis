@@ -1,6 +1,6 @@
 # **Transcriptomic Profiling of *Saccharomyces cerevisiae* During Velum Biofilm Formation**
 Author: Vian Lelo
-Date created: January 20th, 2026, Last Updated: February 8th, 2026
+Date created: March 1st, 2026, Last Updated: March 1st, 2026
 
 # **1.0 Introduction**
 Saccharomyces cerevisiae flor strains form a structured floating biofilm, termed a velum, at the air–liquid interface during the biological aging of sherry-style wines. This aerobic lifestyle enables oxidative metabolism under conditions of low nutrient availability, elevated ethanol concentration, and oxidative stress, driving the accumulation of acetaldehyde, acetals, and other flavor-active compounds characteristic of fino and manzanilla wines (Moreno-García et al., 2017). Velum development progresses through distinct morphological stages—early, thin, and mature—and prior transcriptomic and proteomic work has demonstrated stage-specific remodeling of gene expression, including strong induction of the cell-adhesion gene FLO11 and broad activation of stress-response and respiratory programs during maturation (Mardanov et al., 2020; Moreno-García et al., 2017).
@@ -53,8 +53,7 @@ wget -P reference/ https://ftp.ensembl.org/pub/release-110/gtf/saccharomyces_cer
 ```
 
 ## **2.3 Quality Control**
-```
-```
+
 ### **2.3.1 FastQC & MultiQC**
 
 Following the data acquisition phase, a comprehensive quality control (QC) assessment was performed to evaluate the integrity and sequencing metrics of the raw reads. This was executed by running FastQC (v0.12.1) on all compressed FASTQ files within the project directory, utilizing 16 computational threads to expedite the processing of the nine biofilm samples. To synthesize the individual sample reports into a single, interpretable diagnostic overview, MultiQC was employed to aggregate the results into a unified HTML report. This dual-stage QC pipeline allowed for the systematic identification of potential sequencing artifacts, such as adapter contamination or base-calling quality drops, prior to downstream transcriptomic analysis; for specific implementation details, please refer to the scripts directory.
@@ -62,9 +61,6 @@ Following the data acquisition phase, a comprehensive quality control (QC) asses
 cd ~/binf6110/assignment2
 fastqc data/fastq/*.fastq.gz -o results/fastqc_raw -t 16
 multiqc results/fastqc_raw -o results/multiqc
-```
-### **2.3.2 Optional Trimming**
-```
 ```
 ## **2.4 Reference & Indexing**
 
@@ -90,17 +86,17 @@ cd ..
 Transcript abundance for the nine biofilm samples was quantified using Salmon (v1.10.3) in its mapping-based quantification mode. Single-end reads were processed by aligning against the previously constructed S. cerevisiae R64-1-1 selective-alignment ("gentrome") index. To account for library-specific artifacts, the Salmon automatic library type detection (-l A) was employed. Furthermore, quantification fidelity was enhanced through the inclusion of bias correction parameters—specifically --gcBias and --seqBias—which mitigate technical variations inherent in sequencing library preparation, while the --validateMappings flag was utilized to refine alignment sensitivity. Calculations were executed across 16 parallel threads per sample to optimize computational throughput. The resulting quantification output files (quant.sf) provided both raw counts and normalized abundance estimates (Transcripts Per Million; TPM) for each transcript, which served as the foundation for subsequent differential gene expression analysis across the early, thin, and mature biofilm developmental stages. please refer to the scripts directory.
 
 ## **2.6 Differential Expression Analysis**
-```
-```
+Differential expression analysis was performed using DESeq2 (v1.42; Love et al., 2014), with transcript-level abundance estimates imported via tximport using the countsFromAbundance = "no" setting to retain raw inferred counts. A negative-binomial generalised linear model was fitted with velum stage (Early, Thin, Mature) as the sole explanatory variable. Genes with fewer than 10 counts in fewer than three samples were removed prior to modelling. Size factors were estimated using DESeq2's median-of-ratios method, and dispersion was estimated with empirical Bayes shrinkage. Log2 fold changes were further shrunk using the adaptive shrinkage estimator (ashr; Stephens, 2017) to reduce noise for low-count genes. A Benjamini-Hochberg false discovery rate (FDR) threshold of 0.05 and an absolute log2 fold-change threshold of 1 were applied to define differentially expressed genes (DEGs).
+
 ### **2.6.1 PCA & Sample Distances**
-```
-```
+To assess overall transcriptomic structure and sample reproducibility, count data were transformed using the variance-stabilising transformation (VST) implemented in DESeq2 with blind = FALSE. Principal component analysis (PCA) was performed on the VST-normalised matrix and visualised using ggplot2, with sample labels added via ggrepel to facilitate identification of potential outliers. Sample-to-sample Euclidean distances were computed on the transposed VST matrix and displayed as a hierarchically clustered heatmap using pheatmap, with samples annotated by velum stage. These diagnostics were used to confirm that biological replicates clustered by stage prior to statistical testing.
+
 ### **2.6.2 Pairwise Contrasts**
-```
-```
-### **2.6.3 LRT Analysis**
-```
-```
+Three pairwise contrasts were extracted from the fitted DESeq2 model to characterise transcriptional changes at successive stages of velum development: Thin vs Early, Mature vs Early, and Mature vs Thin. For each contrast, results were obtained using the results() function with an independent filtering alpha of 0.05. Volcano plots were generated for all three contrasts, displaying shrunk log2 fold changes against -log10(adjusted p-value), with the top ten up- and down-regulated genes labelled by gene identifier. A combined three-panel figure was produced using the patchwork package to facilitate direct visual comparison across contrasts. Full results tables were exported as CSV files for downstream interpretation.
+
+### **2.6.3 Likelihood Ratio Test**
+To identify genes exhibiting any significant variation in expression across the three velum stages, irrespective of the direction or stage of change, a likelihood ratio test (LRT) was performed by comparing the full model (~stage) against a reduced intercept-only model (~1). This approach detects genes with a stage-dependent expression profile without being restricted to a single pairwise comparison, and is particularly suited to ordered developmental time-series such as the Early-Thin-Mature progression. Genes were considered significant at FDR < 0.05, and the resulting gene set was used to generate a clustered heatmap of the top 50 stage-varying genes to visualise temporal expression patterns.
+
 ## **2.7 Functional Annotation & Enrichment**
 ```
 ```
