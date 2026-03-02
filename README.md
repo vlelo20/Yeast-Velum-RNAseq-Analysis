@@ -140,10 +140,6 @@ At the lower end of enrichment significance, terms related to fermentative and g
 <img width="2400" height="2100" alt="GO_ORA_mature_vs_early" src="https://github.com/user-attachments/assets/878fc6f0-6917-492e-a229-313cee0ebf87" />
 Figure 5. GO Biological Process enrichment dot plot (Mature vs Early, ORA). The x-axis shows the GeneRatio (proportion of DEGs annotated to each term); dot size is proportional to the number of DEGs in the term; dot colour indicates adjusted p-value (red = more significant, blue = less significant). Only terms with FDR < 0.05 are shown. Analysis performed using clusterProfiler with org.Sc.sgd.db and BH correction.
 
-## **3.1 Overall Data Structure**
-## **3.2 Differential Expression**
-## **3.3 Functional Annotation**
-
 # **4.0 Discussion**
 ## **4.1 Biological Interpretation**
 ## **4.2 Implications**
@@ -161,11 +157,19 @@ Figure 5. GO Biological Process enrichment dot plot (Mature vs Early, ORA). The 
 # **7.0 How to Run**
 
 # **8.0 References**
+
 Andrews, S. (2010). FastQC: A quality control tool for high throughput sequence data. Babraham Institute. https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
+
 Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: Summarize analysis results for multiple tools and samples in a single report. Bioinformatics, 32(19), 3047–3048. https://doi.org/10.1093/bioinformatics/btw354
+
 Law, C. W., Chen, Y., Shi, W., & Smyth, G. K. (2014). Voom: Precision weights unlock linear model analysis tools for RNA-seq read counts. Genome Biology, 15, R29. https://doi.org/10.1186/gb-2014-15-2-r29
+
 Love, M. I., Huber, W., & Anders, S. (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15, 550. https://doi.org/10.1186/s13059-014-0550-8
+
 Mardanov, A. V., Eldarov, M. A., Beletsky, A. V., Tanashchuk, T. N., Kishkovskaya, S. A., & Ravin, N. V. (2020). Transcriptome profile of yeast strain used for biological wine aging revealed dynamic changes of gene expression in course of flor development. Frontiers in Microbiology, 11, 538. https://doi.org/10.3389/fmicb.2020.00538
+
 Moreno-García, J., Mauricio, J. C., Moreno, J., & García-Martínez, T. (2017). Differential proteome analysis of a flor yeast strain under biofilm formation. International Journal of Molecular Sciences, 18(4), 720. https://doi.org/10.3390/ijms18040720
+
 Patro, R., Duggal, G., Love, M. I., Irizarry, R. A., & Kingsford, C. (2017). Salmon provides fast and bias-aware quantification of transcript expression. Nature Methods, 14(4), 417–419. https://doi.org/10.1038/nmeth.4197
+
 Robinson, M. D., McCarthy, D. J., & Smyth, G. K. (2010). edgeR: A Bioconductor package for differential expression analysis of digital gene expression data. Bioinformatics, 26(1), 139–140. https://doi.org/10.1093/bioinformatics/btp616
