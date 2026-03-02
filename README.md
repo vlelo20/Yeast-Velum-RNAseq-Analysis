@@ -163,16 +163,22 @@ All analyses were conducted in R version 4.5.2.  Key package versions: DESeq2 v1
 
 
 # **6.0 References**
+
 Brückner, S., & Mösch, H. U. (2012). Choosing the right lifestyle: Adhesion and development in Saccharomyces cerevisiae. FEMS Microbiology Reviews, 36(1), 25–58. https://doi.org/10.1111/j.1574-6976.2011.00275.x
+
 Forsburg, S. L., & Guarente, L. (1989). Communication between mitochondria and the nucleus in regulation of cytochrome genes in the yeast Saccharomyces cerevisiae. Annual Review of Cell Biology, 5, 153–180. https://doi.org/10.1146/annurev.cb.05.110189.001101
+
 Giaever, G., Chu, A. M., Ni, L., Connelly, C., Riles, L., et al. (2002). Functional profiling of the Saccharomyces cerevisiae genome. Nature, 418(6896), 387–391. https://doi.org/10.1038/nature00935
+
 Love, M. I., Huber, W., & Anders, S. (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15, 550. https://doi.org/10.1186/s13059-014-0550-8
+
 Mardanov, A. V., Eldarov, M. A., Beletsky, A. V., Tanashchuk, T. N., Kishkovskaya, S. A., & Ravin, N. V. (2020). Transcriptome profile of yeast strain used for biological wine aging revealed dynamic changes of gene expression in course of flor development. Frontiers in Microbiology, 11, 538. https://doi.org/10.3389/fmicb.2020.00538
+
 Moreno-García, J., Mauricio, J. C., Moreno, J., & García-Martínez, T. (2017). Differential proteome analysis of a flor yeast strain under biofilm formation. International Journal of Molecular Sciences, 18(4), 720. https://doi.org/10.3390/ijms18040720
+
 Torbensen, R., Møller, H. D., Gresham, D., Alizadeh, S., Ochmann, D., Boles, E., & Regenberg, B. (2012). Genetic basis for Saccharomyces cerevisiae biofilm in liquid medium. G3: Genes, Genomes, Genetics, 2(9), 1083–1093. https://doi.org/10.1534/g3.112.003301
+
 Wu, T., Hu, E., Xu, S., Chen, M., Guo, P., et al. (2021). clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. Innovation, 2(3), 100141. https://doi.org/10.1016/j.xinn.2021.100141
+
 Zara, G., Zara, S., Pinna, C., Marceddu, S., & Budroni, M. (2009). FLO11 gene length and expression level affect biofilm-forming ability of wild flor strains of Saccharomyces cerevisiae. Microbiology, 155(12), 3838–3846. https://doi.org/10.1099/mic.0.028738-0
 
-Patro, R., Duggal, G., Love, M. I., Irizarry, R. A., & Kingsford, C. (2017). Salmon provides fast and bias-aware quantification of transcript expression. Nature Methods, 14(4), 417–419. https://doi.org/10.1038/nmeth.4197
-
-Robinson, M. D., McCarthy, D. J., & Smyth, G. K. (2010). edgeR: A Bioconductor package for differential expression analysis of digital gene expression data. Bioinformatics, 26(1), 139–140. https://doi.org/10.1093/bioinformatics/btp616
