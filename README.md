@@ -98,14 +98,13 @@ Three pairwise contrasts were extracted from the fitted DESeq2 model to characte
 To identify genes exhibiting any significant variation in expression across the three velum stages, irrespective of the direction or stage of change, a likelihood ratio test (LRT) was performed by comparing the full model (~stage) against a reduced intercept-only model (~1). This approach detects genes with a stage-dependent expression profile without being restricted to a single pairwise comparison, and is particularly suited to ordered developmental time-series such as the Early-Thin-Mature progression. Genes were considered significant at FDR < 0.05, and the resulting gene set was used to generate a clustered heatmap of the top 50 stage-varying genes to visualise temporal expression patterns.
 
 ## **2.7 Functional Annotation & Enrichment**
-```
-```
-### **2.7.1 ORA**
-```
-```
-### **2.7.2 GSEA**
-```
-```
+Functional enrichment analyses were performed to contextualise DEGs within known biological processes relevant to velum formation, including cell adhesion, oxidative metabolism, and stress response. Gene identifiers used throughout were Saccharomyces Genome Database (SGD) open reading frame (ORF) designations, compatible with the org.Sc.sgd.db annotation package (Bioconductor).
+
+### **2.7.1 Over-Representation Analysis (ORA)**
+Over-representation analysis (ORA) was conducted using the enrichGO() function from clusterProfiler (Wu et al., 2021), testing for enrichment of Gene Ontology Biological Process (GO:BP) terms among DEGs from the Mature vs Early contrast. The background gene universe was defined as all genes passing the pre-filtering step. P-values were adjusted using the Benjamini-Hochberg method, and terms with adjusted p < 0.05 and q < 0.2 were considered significantly enriched. Results were visualised as a dot plot showing the top 20 enriched terms, with dot size proportional to gene-set size and colour indicating adjusted p-value.
+
+### **2.7.2 Gene Set Enrichment Analysis (GSEA)**
+Gene set enrichment analysis (GSEA) was performed using the gseGO() function from clusterProfiler to capture coordinated shifts in GO:BP terms without imposing a binary significance threshold. Genes were pre-ranked by the DESeq2 Wald statistic from the Mature vs Early contrast, which integrates both fold-change magnitude and statistical confidence. The analysis was run with 1,000 permutations and a minimum gene-set size of 10. Normalised enrichment scores (NES) and FDR-adjusted p-values were reported, and the top positively and negatively enriched pathways were visualised using enrichplot. GSEA complements ORA by detecting pathways enriched among moderately but consistently regulated genes that may fall below a strict fold-change cut-off.
 
 # **3.0 Results**
 ## **3.1 Overall Data Structure**
