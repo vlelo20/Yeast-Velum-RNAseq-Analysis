@@ -57,7 +57,7 @@ wget -P reference/ https://ftp.ensembl.org/pub/release-110/gtf/saccharomyces_cer
 ```
 ### **2.3.1 FastQC & MultiQC**
 
-Following the data acquisition phase, a comprehensive quality control (QC) assessment was performed to evaluate the integrity and sequencing metrics of the raw reads. This was executed by running FastQC (v0.12.1) on all compressed FASTQ files within the project directory, utilizing 16 computational threads to expedite the processing of the nine biofilm samples. To synthesize the individual sample reports into a single, interpretable diagnostic overview, MultiQC was employed to aggregate the results into a unified HTML report. This dual-stage QC pipeline allowed for the systematic identification of potential sequencing artifacts, such as adapter contamination or base-calling quality drops, prior to downstream transcriptomic analysis; for specific implementation details, please refer to the quality control section in the scripts directory.
+Following the data acquisition phase, a comprehensive quality control (QC) assessment was performed to evaluate the integrity and sequencing metrics of the raw reads. This was executed by running FastQC (v0.12.1) on all compressed FASTQ files within the project directory, utilizing 16 computational threads to expedite the processing of the nine biofilm samples. To synthesize the individual sample reports into a single, interpretable diagnostic overview, MultiQC was employed to aggregate the results into a unified HTML report. This dual-stage QC pipeline allowed for the systematic identification of potential sequencing artifacts, such as adapter contamination or base-calling quality drops, prior to downstream transcriptomic analysis; for specific implementation details, please refer to the scripts directory.
 ```
 cd ~/binf6110/assignment2
 fastqc data/fastq/*.fastq.gz -o results/fastqc_raw -t 16
@@ -86,8 +86,9 @@ salmon index -t gentrome.fa.gz -d decoys.txt -p 16 -i salmon_index
 cd ..
 ```
 ## **2.5 Quantification**
-```
-```
+
+Transcript abundance for the nine biofilm samples was quantified using Salmon (v1.10.3) in its mapping-based quantification mode. Single-end reads were processed by aligning against the previously constructed S. cerevisiae R64-1-1 selective-alignment ("gentrome") index. To account for library-specific artifacts, the Salmon automatic library type detection (-l A) was employed. Furthermore, quantification fidelity was enhanced through the inclusion of bias correction parameters—specifically --gcBias and --seqBias—which mitigate technical variations inherent in sequencing library preparation, while the --validateMappings flag was utilized to refine alignment sensitivity. Calculations were executed across 16 parallel threads per sample to optimize computational throughput. The resulting quantification output files (quant.sf) provided both raw counts and normalized abundance estimates (Transcripts Per Million; TPM) for each transcript, which served as the foundation for subsequent differential gene expression analysis across the early, thin, and mature biofilm developmental stages. please refer to the scripts directory.
+
 ## **2.6 Differential Expression Analysis**
 ```
 ```
