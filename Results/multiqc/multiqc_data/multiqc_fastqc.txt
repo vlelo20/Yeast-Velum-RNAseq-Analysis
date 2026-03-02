@@ -1,0 +1,10 @@
+Sample	Filename	File type	Encoding	Total Sequences	Total Bases	Sequences flagged as poor quality	Sequence length	%GC	total_deduplicated_percentage	avg_sequence_length	median_sequence_length	basic_statistics	per_base_sequence_quality	per_sequence_quality_scores	per_base_sequence_content	per_sequence_gc_content	per_base_n_content	sequence_length_distribution	sequence_duplication_levels	overrepresented_sequences	adapter_content
+IL20_1	IL20_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	7528054.0	376.4 Mbp	0.0	50.0	43.0	16.832594119567368	50.0	50	pass	pass	pass	fail	warn	pass	pass	fail	warn	pass
+IL21_1	IL21_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	6897699.0	344.8 Mbp	0.0	50.0	43.0	18.602070259024902	50.0	50	pass	pass	pass	fail	warn	pass	pass	fail	warn	pass
+IL22_1	IL22_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	6734945.0	336.7 Mbp	0.0	50.0	43.0	17.472900467069895	50.0	50	pass	pass	pass	fail	warn	pass	pass	fail	warn	pass
+IL23_1	IL23_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	6309292.0	315.4 Mbp	0.0	50.0	45.0	14.17369670929745	50.0	50	pass	pass	pass	fail	pass	pass	pass	fail	warn	pass
+IL24_1	IL24_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	6089675.0	304.4 Mbp	0.0	50.0	41.0	21.08709896572968	50.0	50	pass	pass	pass	fail	warn	pass	pass	fail	warn	pass
+IL25_1	IL25_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	5980833.0	299 Mbp	0.0	50.0	41.0	23.33875007383333	50.0	50	pass	pass	pass	fail	warn	pass	pass	fail	warn	pass
+IL29_1	IL29_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	8765210.0	438.2 Mbp	0.0	50.0	42.0	15.352482831906558	50.0	50	pass	pass	pass	fail	fail	pass	pass	fail	fail	pass
+IL30_1	IL30_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	6912070.0	345.6 Mbp	0.0	50.0	42.0	16.57210221207385	50.0	50	pass	pass	pass	fail	warn	pass	pass	fail	fail	pass
+IL31_1	IL31_1.fastq.gz	Conventional base calls	Sanger / Illumina 1.9	9030851.0	451.5 Mbp	0.0	50.0	42.0	15.302694643599132	50.0	50	pass	pass	pass	fail	warn	pass	pass	fail	fail	pass

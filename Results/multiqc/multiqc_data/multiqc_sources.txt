@@ -1,0 +1,10 @@
+Module	Section	Sample Name	Source
+FastQC	all_sections	IL20_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL20_1_fastqc.zip
+FastQC	all_sections	IL21_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL21_1_fastqc.zip
+FastQC	all_sections	IL22_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL22_1_fastqc.zip
+FastQC	all_sections	IL23_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL23_1_fastqc.zip
+FastQC	all_sections	IL24_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL24_1_fastqc.zip
+FastQC	all_sections	IL25_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL25_1_fastqc.zip
+FastQC	all_sections	IL29_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL29_1_fastqc.zip
+FastQC	all_sections	IL30_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL30_1_fastqc.zip
+FastQC	all_sections	IL31_1	/home/vian/binf6110/assignment2/results/fastqc_raw/IL31_1_fastqc.zip

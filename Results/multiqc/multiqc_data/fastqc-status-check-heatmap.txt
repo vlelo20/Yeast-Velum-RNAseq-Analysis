@@ -1,0 +1,10 @@
+.	Basic Statistics	Per Base Sequence Quality	Per Sequence Quality Scores	Per Base Sequence Content	Per Sequence GC Content	Per Base N Content	Sequence Length Distribution	Sequence Duplication Levels	Overrepresented Sequences	Adapter Content
+IL20_1	1	1	1	0.25	0.5	1	1	0.25	0.5	1
+IL21_1	1	1	1	0.25	0.5	1	1	0.25	0.5	1
+IL22_1	1	1	1	0.25	0.5	1	1	0.25	0.5	1
+IL23_1	1	1	1	0.25	1	1	1	0.25	0.5	1
+IL24_1	1	1	1	0.25	0.5	1	1	0.25	0.5	1
+IL25_1	1	1	1	0.25	0.5	1	1	0.25	0.5	1
+IL29_1	1	1	1	0.25	0.25	1	1	0.25	0.25	1
+IL30_1	1	1	1	0.25	0.5	1	1	0.25	0.25	1
+IL31_1	1	1	1	0.25	0.5	1	1	0.25	0.25	1
