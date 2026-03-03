@@ -1,6 +1,6 @@
 # **Transcriptomic Profiling of *Saccharomyces cerevisiae* During Velum Biofilm Formation**
 Author: Vian Lelo
-Date created: March 1st, 2026, Last Updated: March 1st, 2026
+Date created: March 1st, 2026, Last Updated: March 3rd, 2026
 
 # **1.0 Introduction**
 Saccharomyces cerevisiae flor strains form a structured floating biofilm, termed a velum, at the air–liquid interface during the biological aging of sherry-style wines. This aerobic lifestyle enables oxidative metabolism under conditions of low nutrient availability, elevated ethanol concentration, and oxidative stress, driving the accumulation of acetaldehyde, acetals, and other flavor-active compounds characteristic of fino and manzanilla wines (Moreno-García et al., 2017). Velum development progresses through distinct morphological stages—early, thin, and mature—and prior transcriptomic and proteomic work has demonstrated stage-specific remodeling of gene expression, including strong induction of the cell-adhesion gene FLO11 and broad activation of stress-response and respiratory programs during maturation (Mardanov et al., 2020; Moreno-García et al., 2017).
