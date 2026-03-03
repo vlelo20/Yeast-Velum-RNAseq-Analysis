@@ -160,8 +160,6 @@ The strong enrichment of transmembrane transport processes across all three cont
 ## **4.3 Limitations**
 Several limitations of this study warrant consideration. Bulk RNA-seq of whole-velum tissue integrates transcriptomes from cells occupying distinct microenvironmental positions within the biofilm, obscuring cell-type-specific expression programmes (Mardanov et al., 2020). Additionally, with n = 3 biological replicates per stage, statistical power for detecting genes with moderate fold changes is reduced, and DESeq2 dispersion estimates may be imprecise (Love et al., 2014). The functional enrichment analysis was restricted to GO:BP ORA; GSEA and KEGG pathway analysis were not completed in the current work, meaning that coordinated shifts in moderately regulated genes may be underrepresented. Finally, while ORA was performed for all three contrasts, the downstream discussion and Figure 4 heatmap focus on the Mature vs Early contrast as the most biologically informative comparison.
 
-## **4.4 Future Directions**
-
 
 # **5.0 Version Information**
 All analyses were conducted in R version 4.5.2.  Key package versions: DESeq2 v1.42, tximport v1.28, txdbmaker v1.0, clusterProfiler v4.10, org.Sc.sgd.db v3.18, ggplot2 v3.4, patchwork v1.2, pheatmap v1.0.12, ggrepel v0.9. Read quantification used Salmon v1.10 (selective-alignment mode, decoy-aware index). Quality control used FastQC v0.12 and MultiQC v1.14. The reference genome was S. cerevisiae Ensembl R64-1-1 (release 110). All package versions can be confirmed by running sessionInfo() at the end of the analysis script.
