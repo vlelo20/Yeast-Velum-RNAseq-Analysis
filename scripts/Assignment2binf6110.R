@@ -35,7 +35,7 @@ suppressPackageStartupMessages({
 # ── 2. Sample metadata ───────────────────────────────────────
 # samplesheet.csv must have columns: sample, stage
 # stage values: Early, Thin, Mature  (9 samples total)
-samples <- read.csv("samplesheetR.csv", stringsAsFactors = FALSE)
+samples <- read.csv("samplesheet.csv", stringsAsFactors = FALSE)
 
 # Ensure stage is an ordered factor for sensible contrasts
 samples$stage <- factor(samples$stage,
@@ -577,3 +577,31 @@ cat("\nPackage versions:\n")
 for (pkg in names(pkg_versions)) {
   cat(sprintf("  %-20s %s\n", pkg, pkg_versions[pkg]))
 }
+
+
+# Rank all genes by Wald statistic from Mature vs Early
+ranked_genes <- res_mature_vs_early %>%
+  as.data.frame() %>%
+  rownames_to_column("gene") %>%
+  filter(!is.na(stat)) %>%
+  arrange(desc(stat)) %>%
+  { setNames(.$stat, .$gene) }
+
+gsea_res <- gseGO(geneList     = ranked_genes,
+                  OrgDb        = org.Sc.sgd.db,
+                  keyType      = "ORF",
+                  ont          = "BP",
+                  minGSSize    = 10,
+                  pAdjustMethod = "BH",
+                  pvalueCutoff = 0.05,
+                  nPermSimple  = 1000,
+                  verbose      = FALSE)
+
+write.csv(as.data.frame(gsea_res),
+          "results/DE/GSEA_BP_mature_vs_early.csv", row.names = FALSE)
+
+library(enrichplot)
+p_gsea <- dotplot(gsea_res, showCategory = 15, split = ".sign") +
+  facet_grid(. ~ .sign)
+ggsave("results/figures/GSEA_BP_mature_vs_early.png", p_gsea,
+       width = 12, height = 7, dpi = 300, bg = "white")
