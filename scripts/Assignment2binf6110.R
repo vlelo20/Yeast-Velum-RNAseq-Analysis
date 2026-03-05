@@ -1,6 +1,6 @@
 ## ============================================================
 # BINF 6110 - Assignment 2
-# Author: Vian Lelo
+# Author: Vian Lelo Last edited: March 4th, 2026
 # Description: Differential expression analysis of S. cerevisiae
 #              flor yeast velum development (Early / Thin / Mature)
 #              BioProject: PRJNA592304
@@ -320,6 +320,9 @@ ggsave("results/figures/GO_ORA_mature_vs_early.png", p_go,
 
 message("\n✓ Analysis complete. Outputs in results/DE/ and results/figures/")
 
+
+
+
 # ── 16. GO ORA — all three contrasts + combined panel ────────
 
 run_ORA <- function(res_df, label) {
@@ -351,9 +354,12 @@ make_go_plot <- function(ego_obj, subtitle_str, n = 15) {
     labs(title = subtitle_str) +
     theme_classic(base_size = 10) +
     theme(
-      plot.title   = element_text(face = "bold", size = 11),
-      axis.text.y  = element_text(size = 8),
-      legend.key.size = unit(0.4, "cm")
+      plot.title      = element_text(face = "bold", size = 11),
+      axis.text.y     = element_text(size = 8),
+      legend.key.size = unit(0.4, "cm"),
+      legend.position = "right",
+      legend.text     = element_text(size = 7),
+      legend.title    = element_text(size = 8)
     )
 }
 
@@ -369,7 +375,7 @@ ggsave("results/figures/GO_ORA_mature_vs_thin.png",  p_go3,
 
 # Combined 3-panel
 p_go_panel <- p_go1 + p_go2 + p_go3 +
-  plot_layout(ncol = 3, guides = "collect") +
+  plot_layout(ncol = 3) +
   plot_annotation(
     title    = "GO Biological Process Enrichment Across Velum Development Contrasts",
     subtitle = "ORA (clusterProfiler): top 15 BP terms per contrast, BH FDR < 0.05",
@@ -380,6 +386,194 @@ p_go_panel <- p_go1 + p_go2 + p_go3 +
   )
 
 ggsave("results/figures/GO_ORA_all_contrasts.png", p_go_panel,
+       width = 22, height = 8, dpi = 300, bg = "white")
+
+ggsave("results/figures/GO_ORA_all_contrasts.png", p_go_panel,
        width = 20, height = 8, dpi = 300, bg = "white")
 
 message("✓ GO ORA complete — individual + combined panel saved.")
+
+# ── 17. Expression trajectory plot — selected biologically justified genes ────
+#
+# Gene selection rationale:
+#   FLO11  – master regulator of velum adhesion; abolishes biofilm when deleted
+#            (Brückner & Mösch, 2012; Mardanov et al., 2020)
+#   CYC1   – iso-1 cytochrome c; O2/HAP-activated electron carrier; mechanistic
+#            link to "aerobic respiration" GO enrichment (Guarente et al., 1983)
+#   QCR2   – Complex III subunit; qcr2Δ impairs growth on non-fermentable carbon
+#            and reduces ethanol tolerance (SGD); links to ETC GO terms
+#   ALD4   – mitochondrial ALDH; induced by ethanol in flor yeasts to channel
+#            acetaldehyde into TCA; directly relevant to wine acetaldehyde
+#            accumulation (Lasanta et al., 2003; Navarro-Aviño et al., 1999)
+#   ALD6   – cytosolic ALDH; major acetaldehyde-to-acetate route with ALD4
+#            (Navarro-Aviño et al., 1999)
+
+genes_of_interest <- c("FLO11", "CYC1", "QCR2", "ALD4", "ALD6")
+
+# Check which are present in the VST matrix (gene IDs must match your annotation)
+# If your IDs are ORF names (e.g. YOR374W for ALD4), use those instead:
+orf_map <- c(
+  FLO11 = "YHR211W",
+  CYC1  = "YJR048W",
+  QCR2  = "YPR191W",
+  ALD4  = "YOR374W",
+  ALD6  = "YPL061W"
+)
+
+# Filter to genes actually present in the dataset
+present <- orf_map[orf_map %in% rownames(assay(vsd))]
+missing <- orf_map[!orf_map %in% rownames(assay(vsd))]
+if (length(missing) > 0) {
+  message("Note: these ORFs not found in VST matrix: ", paste(names(missing), collapse = ", "))
+}
+
+# Extract VST counts for selected genes
+vst_mat <- assay(vsd)[present, ]
+
+# Build tidy long-format data frame
+traj_df <- as.data.frame(t(vst_mat)) %>%
+  rownames_to_column("sample") %>%
+  left_join(
+    as.data.frame(colData(vsd)) %>% rownames_to_column("sample") %>% select(sample, stage),
+    by = "sample"
+  ) %>%
+  pivot_longer(cols = -c(sample, stage), names_to = "orf", values_to = "vst") %>%
+  mutate(
+    gene  = names(present)[match(orf, present)],  # map ORF back to gene name
+    stage = factor(stage, levels = c("Early", "Thin", "Mature"))
+  )
+
+# Compute mean + SE per gene x stage for the line
+traj_summary <- traj_df %>%
+  group_by(gene, stage) %>%
+  summarise(mean_vst = mean(vst),
+            se_vst   = sd(vst) / sqrt(n()),
+            .groups  = "drop")
+
+# Colour palette: group by biological role
+gene_colors <- c(
+  FLO11 = "#8C4B8C",   # purple  — adhesion
+  CYC1  = "#E07B39",   # orange  — respiratory chain
+  QCR2  = "#D4A537",   # amber   — respiratory chain
+  ALD4  = "#3A7DC9",   # blue    — aldehyde metabolism
+  ALD6  = "#4EAD81"    # green   — aldehyde metabolism
+)
+
+gene_labels <- c(
+  FLO11 = "FLO11 — cell adhesion",
+  CYC1  = "CYC1 — cytochrome c",
+  QCR2  = "QCR2 — Complex III",
+  ALD4  = "ALD4 — mito. ALDH",
+  ALD6  = "ALD6 — cyto. ALDH"
+)
+
+p_traj <- ggplot(traj_summary, aes(x = stage, y = mean_vst,
+                                   group = gene, color = gene)) +
+  # Individual replicate points (jittered slightly)
+  geom_jitter(data = traj_df,
+              aes(x = stage, y = vst, color = gene),
+              width = 0.06, size = 2, alpha = 0.45, inherit.aes = FALSE) +
+  # Mean line
+  geom_line(linewidth = 1.1) +
+  # Mean point
+  geom_point(aes(y = mean_vst), size = 3.5, shape = 21,
+             fill = "white", stroke = 1.4) +
+  # SE ribbon
+  geom_ribbon(aes(ymin = mean_vst - se_vst,
+                  ymax = mean_vst + se_vst,
+                  fill = gene),
+              alpha = 0.12, color = NA) +
+  scale_color_manual(values = gene_colors, labels = gene_labels, name = "Gene") +
+  scale_fill_manual(values  = gene_colors, labels = gene_labels, name = "Gene") +
+  facet_wrap(~ gene, scales = "free_y", ncol = 5,
+             labeller = labeller(gene = gene_labels)) +
+  labs(
+    title    = "Expression Trajectories of Biologically Selected Genes",
+    subtitle = "VST-normalised counts — mean ± SE with individual replicates",
+    x        = "Velum stage",
+    y        = "VST-normalised expression"
+  ) +
+  theme_classic(base_size = 11) +
+  theme(
+    plot.title      = element_text(face = "bold", size = 13),
+    plot.subtitle   = element_text(size = 9, color = "grey40"),
+    strip.text      = element_text(face = "bold", size = 9),
+    strip.background = element_rect(fill = "grey95", color = NA),
+    legend.position = "none",   # facet labels are sufficient
+    panel.grid.major.y = element_line(color = "grey92", linewidth = 0.4),
+    axis.text.x     = element_text(size = 10)
+  )
+
+ggsave("results/figures/gene_trajectories.png", p_traj,
+       width = 14, height = 4, dpi = 300, bg = "white")
+
+message("✓ Gene trajectory plot saved: results/figures/gene_trajectories.png")
+
+
+# ── 18. Shared DEGs across contrasts — UpSet plot ────────────────────────────
+library(UpSetR)
+
+# Build named lists of significant DEG IDs per contrast
+sig_tve <- df_thin_vs_early   %>% filter(sig != "NS") %>% pull(gene)
+sig_mve <- df_mature_vs_early %>% filter(sig != "NS") %>% pull(gene)
+sig_mvt <- df_mature_vs_thin  %>% filter(sig != "NS") %>% pull(gene)
+
+upset_list <- list(
+  "Thin vs Early"   = sig_tve,
+  "Mature vs Early" = sig_mve,
+  "Mature vs Thin"  = sig_mvt
+)
+
+# UpSet plot
+png("results/figures/DEG_upset.png",
+    width = 2400, height = 1800, res = 300)
+
+upset(
+  fromList(upset_list),
+  sets            = c("Thin vs Early", "Mature vs Early", "Mature vs Thin"),
+  order.by        = "freq",
+  keep.order      = TRUE,
+  sets.bar.color  = c("#4E9A8C", "#D62728", "#3A7DC9"),
+  main.bar.color  = "grey30",
+  text.scale      = c(1.4, 1.2, 1.2, 1.0, 1.3, 1.1),
+  mb.ratio        = c(0.6, 0.4),
+  point.size      = 3.5,
+  line.size       = 0.8
+)
+
+dev.off()
+
+message("✓ UpSet plot saved: results/figures/DEG_upset.png")
+
+# Quick count of intersections
+length(intersect(intersect(sig_tve, sig_mve), sig_mvt))  # all three
+length(intersect(sig_mve, sig_mvt))                       # Mature vs Early + Mature vs Thin only
+length(intersect(sig_tve, sig_mve))                       # Thin vs Early + Mature vs Early only
+
+
+# ── Session & package version info ───────────────────────────
+session_info <- sessionInfo()
+
+# Key packages to report
+pkgs <- c("DESeq2", "tximport", "txdbmaker", "clusterProfiler", 
+          "org.Sc.sgd.db", "ggplot2", "patchwork", "pheatmap", 
+          "ggrepel", "ashr", "UpSetR", "dplyr", "tidyr", 
+          "tibble", "BiocGenerics")
+
+# Extract versions
+pkg_versions <- sapply(pkgs, function(p) {
+  if (p %in% names(session_info$otherPkgs)) {
+    session_info$otherPkgs[[p]]$Version
+  } else if (p %in% names(session_info$loadedOnly)) {
+    session_info$loadedOnly[[p]]$Version
+  } else {
+    "not loaded"
+  }
+})
+
+# Print cleanly
+cat("R version:", R.version$major, ".", R.version$minor, "\n")
+cat("\nPackage versions:\n")
+for (pkg in names(pkg_versions)) {
+  cat(sprintf("  %-20s %s\n", pkg, pkg_versions[pkg]))
+}
